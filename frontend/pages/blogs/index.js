@@ -80,15 +80,23 @@ const Blogs = ({
   };
 
   const showAllBlogs = () => {
-    return blogs.map((blog, i) => {
-      // ()
+    if (!blogs || blogs.length < 1) {
       return (
-        <article key={i}>
-          <Card blog={blog} />
-          <hr />
+        <article>
+          <p>There is no posts yet.</p>
         </article>
       );
-    });
+    } else {
+      return blogs.map((blog, i) => {
+        // ()
+        return (
+          <article key={i}>
+            <Card blog={blog} />
+            <hr />
+          </article>
+        );
+      });
+    }
   };
 
   const showAllCategories = () => {

@@ -14,6 +14,9 @@ const Layout = ({ children }) => {
               "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
               "Noto Color Emoji";
           }
+          a {
+            color: #212529;
+          }
           .navbar {
             margin-bottom: 50px;
           }

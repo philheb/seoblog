@@ -38,17 +38,15 @@ const Header = props => {
           <Nav className='ml-auto' navbar>
             <>
               <Search />
-              {isAuth() && (
-                <NavItem>
-                  <NavLink
-                    href='/user/crud/blog'
-                    // className='btn btn-primary text-light'
-                    style={{ cursor: "pointer" }}
-                  >
-                    New Post
-                  </NavLink>
-                </NavItem>
-              )}
+
+              <NavItem>
+                <a
+                  href='/user/crud/blog'
+                  className='btn btn-primary text-light'
+                >
+                  New Post
+                </a>
+              </NavItem>
 
               <NavItem>
                 <Link href='/blogs'>
