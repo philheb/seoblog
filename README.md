@@ -1,2 +1,1 @@
-# nextjs-seo-blog
 # seoblog
