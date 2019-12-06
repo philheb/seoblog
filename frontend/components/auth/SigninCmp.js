@@ -7,8 +7,8 @@ import GoogleLogin from "./GoogleLogin";
 
 const SigninCmp = () => {
   const [values, setValues] = useState({
-    email: "philippe.heb@gmail.com",
-    password: "123456",
+    email: "",
+    password: "",
     error: "",
     loading: false,
     message: "",
