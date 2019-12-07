@@ -5,7 +5,7 @@ import { withRouter } from "next/router";
 
 import Layout from "../../components/Layout";
 import { listBlogs } from "../../actions/blog";
-import Card from "../../components/blog/Card";
+import CardNew from "../../components/blog/CardNew";
 import { DOMAIN, APP_NAME, FB_APP_ID } from "../../config";
 
 const Blogs = ({
@@ -91,8 +91,7 @@ const Blogs = ({
         // ()
         return (
           <article key={i}>
-            <Card blog={blog} />
-            <hr />
+            <CardNew blog={blog} />
           </article>
         );
       });
@@ -122,8 +121,7 @@ const Blogs = ({
   const showLoadedBlogs = () => {
     return loadedBlogs.map((b, i) => (
       <article key={i}>
-        <Card blog={b} />
-        <hr />
+        <CardNew blog={b} />
       </article>
     ));
   };
@@ -149,7 +147,18 @@ const Blogs = ({
               </section>
             </header>
           </div>
-          <div className='container-fluid'>{showAllBlogs()}</div>
+
+          <div className='container-fluid'>
+            <div className='row'>
+              <div className='col-md-8'>{showAllBlogs()}</div>
+              <div className='col-md-4'>
+                {showAllCategories()}
+                <br />
+                {showAllTags()}
+              </div>
+            </div>
+          </div>
+
           <div className='container-fluid'>{showLoadedBlogs()}</div>
           <div className='text-center pt-5 pb-5'>{loadMoreButton()}</div>
         </main>

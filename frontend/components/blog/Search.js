@@ -13,17 +13,7 @@ const Search = () => {
   const { search, results, searched, message } = values;
 
   const searchForm = () => (
-    // <form onSubmit={submitHandler} className='form-inline'>
-    //   <input
-    //     className='form-control mr-3'
-    //     type='search'
-    //     placeholder='&#xF002; Search'
-    //     aria-label='Search'
-    //     onChange={changeHandler}
-    //     style={{ fontFamily: "Avenir, Arial, FontAwesome" }}
-    //   />
-    // </form>
-    <form className='form-inline my-2 my-md-0'>
+    <form onSubmit={submitHandler} className='form-inline my-2 my-md-0'>
       <input
         className='form-control mr-sm-2'
         type='search'
