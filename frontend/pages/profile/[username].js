@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import moment from "moment";
+import { isAuth } from "../../actions/auth";
 
 import { withRouter } from "next/router";
 
@@ -56,18 +57,33 @@ const UserProfile = ({ user, blogs, size, query }) => {
               <div className='card'>
                 <div className='card-body'>
                   <div className='row'>
-                    <div className='col-md-8'>
-                      <h5>{user.name}</h5>
+                    <div className='col-sm-8'>
+                      <h2>{user.name}</h2>
                       <p className='text-muted'>
                         Joined {moment(user.createdAt).fromNow()}
                       </p>
+                      {isAuth() &&
+                        isAuth().username &&
+                        isAuth().username === user.username && (
+                          <Link href='/user/update'>
+                            <button className='btn btn-sm mb-4 btn-outline-primary'>
+                              Edit Profile
+                            </button>
+                          </Link>
+                        )}
                     </div>
-                    <div className='col-md-4'>
+                    <div className='col-sm-4'>
                       <img
-                        src={`${API}/user/image/${user.username}`}
-                        style={{ maxWidth: "100%", maxHeight: "auto" }}
+                        src={user.imageUrl}
+                        style={{
+                          maxWidth: "100%",
+                          maxHeight: "auto",
+                          borderStyle: "solid",
+                          borderWidth: " 0 2px 0 2px",
+                          borderColor: "#007bff"
+                        }}
                         alt='user profile'
-                        className='img img-fluid mb-3 img-thumbnail'
+                        className='img img-fluid mb-3 rounded-circle'
                       />
                     </div>
                   </div>
@@ -109,7 +125,6 @@ UserProfile.getInitialProps = ({ query }) => {
     if (data.error) {
       console.log(data.error);
     } else {
-      console.log(data);
       return { user: data.user, blogs: data.blogs, size: data.size, query };
     }
   });

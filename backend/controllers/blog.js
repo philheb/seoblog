@@ -50,11 +50,12 @@ exports.createBlog = (req, res) => {
         error: "At least one tag is required"
       });
     }
+    const excerpt = smartTrim(body, 160, " ", " ...").replace(/<[^>]*>?/gm, "");
 
     const blog = new Blog({
       title,
       body,
-      excerpt: smartTrim(body, 320, " ", " ..."),
+      excerpt,
       slug: slugify(title).toLowerCase(),
       mtitle: `${title} | ${process.env.APP_NAME}`,
       mdesc: stripHtml(body.substring(0, 160)),
@@ -116,6 +117,22 @@ exports.list = (req, res) => {
     .select(
       "_id title slug excerpt categories tags postedBy createdAt updatedAt"
     )
+    .exec((err, data) => {
+      if (err) {
+        return res.json({
+          err: errorHandler(err)
+        });
+      }
+      res.json(data);
+    });
+};
+
+exports.listRecent = (req, res) => {
+  let blogs;
+  Blog.find({})
+    .limit(3)
+    .populate("postedBy", "_id name username profile")
+    .select("_id title slug excerpt postedBy createdAt updatedAt")
     .exec((err, data) => {
       if (err) {
         return res.json({
@@ -236,7 +253,11 @@ exports.update = (req, res) => {
       const { body, categories, tags } = fields;
 
       if (body) {
-        oldBlog.excerpt = smartTrim(body, 320, " ", " ...");
+        oldBlog.excerpt = smartTrim(body, 160, " ", " ...").replace(
+          /<[^>]*>?/gm,
+          ""
+        );
+
         oldBlog.mdesc = stripHtml(body.substring(0, 160));
       }
       if (categories) {

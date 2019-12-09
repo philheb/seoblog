@@ -46,6 +46,22 @@ export const listBlogs = (skip, limit) => {
     });
 };
 
+export const listRecent = () => {
+  return fetch(`${API}/blogs/recent`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    }
+  })
+    .then(res => {
+      return res.json();
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
 export const singleBlog = slug => {
   return fetch(`${API}/blog/${slug}`, {
     method: "GET"

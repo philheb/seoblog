@@ -9,9 +9,15 @@ import {
   Collapse,
   Navbar,
   NavbarToggler,
+  NavbarBrand,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  NavbarText
 } from "reactstrap";
 
 import Search from "./blog/Search";
@@ -23,7 +29,13 @@ Router.onRouteChangeError = url => NProgress.done();
 const Header = props => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const [search, setSearch] = useState(false);
+
   const toggle = () => setIsOpen(!isOpen);
+
+  const toggleSearch = () => {
+    setSearch(!search);
+  };
 
   return (
     <div>
@@ -35,27 +47,52 @@ const Header = props => {
         </Link>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
-          <Nav className='ml-auto' navbar>
+          <Nav className='ml-auto nav-align' navbar>
             <>
-              <Search />
+              {search ? (
+                <div className='row mr-4'>
+                  <Search />
+                  <NavItem onClick={toggleSearch}>
+                    <NavLink
+                      style={{
+                        fontFamily: "Avenir, Arial, FontAwesome",
+                        cursor: "pointer"
+                      }}
+                    >
+                      &#xF002;
+                    </NavLink>
+                  </NavItem>
+                </div>
+              ) : (
+                <div>
+                  <NavItem onClick={toggleSearch}>
+                    <NavLink
+                      className='row mr-4'
+                      style={{
+                        fontFamily: "Avenir, Arial, FontAwesome",
+                        cursor: "pointer"
+                      }}
+                    >
+                      &#xF002;
+                    </NavLink>
+                  </NavItem>
+                </div>
+              )}
 
-              <NavItem>
+              {/* <NavItem>
                 <a
                   href='/user/crud/blog'
                   className='btn btn-primary text-light'
                 >
                   New Post
                 </a>
-              </NavItem>
+              </NavItem> */}
 
               <NavItem>
                 <Link href='/blogs'>
-                  <NavLink style={{ cursor: "pointer" }}>Blog</NavLink>
-                </Link>
-              </NavItem>
-              <NavItem>
-                <Link href='/contact'>
-                  <NavLink style={{ cursor: "pointer" }}>Contact</NavLink>
+                  <NavLink className='mr-4' style={{ cursor: "pointer" }}>
+                    Blog
+                  </NavLink>
                 </Link>
               </NavItem>
             </>
@@ -64,6 +101,7 @@ const Header = props => {
                 <NavItem>
                   <Link href='/signin'>
                     <NavLink
+                      className='mr-4'
                       style={{ cursor: "pointer" }}
                       // className='btn btn-outline-danger text-danger mr-2'
                     >
@@ -73,10 +111,7 @@ const Header = props => {
                 </NavItem>
                 <NavItem>
                   <Link href='/signup'>
-                    <NavLink
-                      style={{ cursor: "pointer" }}
-                      // className='btn btn-danger text-light'
-                    >
+                    <NavLink className='mr-4' style={{ cursor: "pointer" }}>
                       Sign Up
                     </NavLink>
                   </Link>
@@ -84,35 +119,64 @@ const Header = props => {
               </>
             )}
 
-            {isAuth() && isAuth().role === 0 && (
-              <NavItem>
-                <Link href='/user'>
-                  <NavLink style={{ cursor: "pointer" }}>Dashboard</NavLink>
-                </Link>
-              </NavItem>
-            )}
-
-            {isAuth() && isAuth().role === 1 && (
-              <NavItem>
-                <Link href='/admin'>
-                  <NavLink style={{ cursor: "pointer" }}>Dashboard</NavLink>
-                </Link>
-              </NavItem>
-            )}
-
             {isAuth() && (
-              <NavItem>
-                <NavLink
-                  onClick={() => signout(() => Router.replace("/"))}
-                  style={{ cursor: "pointer" }}
-                >
-                  Sign Out
-                </NavLink>
-              </NavItem>
+              <>
+                <UncontrolledDropdown nav inNavbar>
+                  <DropdownToggle nav>
+                    <img
+                      src={isAuth().imageUrl}
+                      className='rounded-circle'
+                      alt='user-avatar'
+                      style={{ height: "40px" }}
+                    />
+                  </DropdownToggle>
+
+                  <DropdownMenu right>
+                    <Link href={`/profile/${isAuth().username}`}>
+                      <DropdownItem className='font-weight-bold'>
+                        {isAuth() && isAuth().name}
+                      </DropdownItem>
+                    </Link>
+                    <a href='/user/crud/blog'>
+                      <DropdownItem>New Post</DropdownItem>
+                    </a>
+                    <Link
+                      href={
+                        isAuth() && isAuth().role === 1 ? "/admin" : "/user"
+                      }
+                    >
+                      <DropdownItem>Dashboard</DropdownItem>
+                    </Link>
+
+                    <DropdownItem divider />
+
+                    <Link href='/contact'>
+                      <DropdownItem>Contact Us</DropdownItem>
+                    </Link>
+
+                    <DropdownItem divider />
+
+                    <DropdownItem
+                      onClick={() => signout(() => Router.replace("/"))}
+                    >
+                      Sign Out
+                    </DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+              </>
             )}
           </Nav>
         </Collapse>
       </Navbar>
+      <style jsx global>
+        {`
+          @media (min-width: 768px) {
+            .nav-align {
+              align-items: center;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };

@@ -10,7 +10,8 @@ const {
   image,
   listRelated,
   listSearch,
-  listByUser
+  listByUser,
+  listRecent
 } = require("../controllers/blog");
 const {
   adminMiddleware,
@@ -26,6 +27,7 @@ router.put("/blog/:slug", requireSignin, adminMiddleware, update);
 
 //User
 router.post("/user/blog", requireSignin, authMiddleware, createBlog);
+
 router.get("/:username/blogs", listByUser);
 router.delete(
   "/user/blog/:slug",
@@ -49,5 +51,6 @@ router.get("/blog/:slug", read);
 router.get("/blog/image/:slug", image);
 router.post("/blogs/related", listRelated);
 router.get("/blogs/search", listSearch);
+router.get("/blogs/recent", listRecent);
 
 module.exports = router;

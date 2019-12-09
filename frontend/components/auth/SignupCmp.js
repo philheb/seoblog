@@ -101,7 +101,7 @@ const SignupCmp = () => {
       {showError()}
       {showMessage()}
       {showLoading()}
-      <GoogleLogin />
+      {showForm && <GoogleLogin />}
       {showForm && signupForm()}
     </React.Fragment>
   );

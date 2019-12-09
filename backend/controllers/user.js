@@ -39,7 +39,7 @@ exports.publicProfile = (req, res) => {
       .skip(skip)
       .limit(limit)
       .select(
-        "_id title slug excerpt categories tags postedBy createdAt updatedAt"
+        "_id title slug excerpt categories tags postedBy createdAt updatedAt imageUrl"
       )
       .exec((err, data) => {
         if (err) {
@@ -63,6 +63,7 @@ exports.update = (req, res) => {
         error: "Image could not be uploaded"
       });
     }
+    console.log(req.profile);
     let user = req.profile;
     user = _.extend(user, fields);
 

@@ -4,6 +4,7 @@ import renderHTML from "react-render-html";
 import { API } from "../../config";
 
 const Card = ({ blog }) => {
+  console.log(blog);
   const showCategories = blog =>
     blog.categories.map((c, i) => (
       <Link key={i} href={`/categories/${c.slug}`}>

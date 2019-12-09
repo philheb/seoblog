@@ -4,6 +4,7 @@ import Link from "next/link";
 import { withRouter } from "next/router";
 
 import Layout from "../../components/Layout";
+import Recent from "../../components/blog/Recent";
 import { listBlogs } from "../../actions/blog";
 import CardNew from "../../components/blog/CardNew";
 import { DOMAIN, APP_NAME, FB_APP_ID } from "../../config";
@@ -102,7 +103,7 @@ const Blogs = ({
     if (categories) {
       return categories.map((c, i) => (
         <Link href={`/categories/${c.slug}`} key={i}>
-          <a className='btn btn-primary mr-1 ml-1 mt-3'>{c.name}</a>
+          <a className='btn btn-primary btn-sm mr-1 ml-1 mt-3'>{c.name}</a>
         </Link>
       ));
     }
@@ -112,7 +113,9 @@ const Blogs = ({
     if (tags) {
       return tags.map((t, i) => (
         <Link href={`/tags/${t.slug}`} key={i}>
-          <a className='btn btn-outline-primary mr-1 ml-1 mt-3'>{t.name}</a>
+          <a className='btn btn-sm btn-outline-primary mr-1 ml-1 mt-3'>
+            {t.name}
+          </a>
         </Link>
       ));
     }
@@ -131,35 +134,56 @@ const Blogs = ({
       {head()}
       <Layout>
         <main>
-          <div className='container-fluid'>
-            <header>
-              <div className='col-md-12 pt-3'>
-                <h1 className='display-4 font-weight-bold text-center'>
-                  Programming blogs and tutorials
-                </h1>
-              </div>
-              <section>
+          <header
+            className='row align-items-center'
+            style={{
+              height: "300px",
+              width: "110%",
+              position: "relative",
+              top: "-50px",
+              backgroundImage: "url(/static/images/blogs.jpg)",
+              backgroundSize: "cover"
+            }}
+          >
+            <div className='col-md-12'>
+              <h1
+                className='display-4 text-center text-white'
+                style={{ backgroundColor: "rgba(0,0,0,0.7)" }}
+              >
+                Programming blog and tutorials
+              </h1>
+            </div>
+            {/* <section>
                 <div className='pb-5 text-center'>
                   {showAllCategories()}
                   <br />
                   {showAllTags()}
                 </div>
-              </section>
-            </header>
-          </div>
+              </section> */}
+          </header>
 
-          <div className='container-fluid'>
+          <div className='container'>
             <div className='row'>
-              <div className='col-md-8'>{showAllBlogs()}</div>
-              <div className='col-md-4'>
-                {showAllCategories()}
-                <br />
-                {showAllTags()}
+              <div className='col-lg-8'>
+                {showAllBlogs()}
+                {showLoadedBlogs()}
+              </div>
+              <div className='col-lg-4'>
+                <section className='pb-4'>
+                  <h4>Categories</h4>
+                  {showAllCategories()}
+                </section>
+                <section className='pb-4'>
+                  <h4>Tags</h4>
+                  {showAllTags()}
+                </section>
+                <section className='pb-4'>
+                  <Recent />
+                </section>
               </div>
             </div>
           </div>
 
-          <div className='container-fluid'>{showLoadedBlogs()}</div>
           <div className='text-center pt-5 pb-5'>{loadMoreButton()}</div>
         </main>
       </Layout>

@@ -6,6 +6,7 @@ import { getProfile, updateProfile } from "../../actions/user";
 import { API, DOMAIN } from "../../config";
 
 const UpdateProfile = () => {
+  const [file, setFile] = useState();
   const [values, setValues] = useState({
     username: "",
     name: "",
@@ -16,10 +17,9 @@ const UpdateProfile = () => {
     success: false,
     loading: false,
     userData: "",
-    isLoading: false,
-    loadingPicture: false
+    imageUrl: "",
+    isLoading: false
   });
-  const [imageUrl, setImageUrl] = useState("");
 
   const token = getCookie("token");
 
@@ -33,8 +33,8 @@ const UpdateProfile = () => {
     success,
     loading,
     userData,
-    isLoading,
-    loadingPicture
+    imageUrl,
+    isLoading
   } = values;
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const UpdateProfile = () => {
   }, []);
 
   const init = () => {
-    setValues({ ...values, isLoading: true, loadingPicture: true });
+    setValues({ ...values, isLoading: true });
     getProfile(token).then(data => {
       if (data.error) {
         setValues({ ...values, error: data.error, isLoading: false });
@@ -53,10 +53,9 @@ const UpdateProfile = () => {
           name: data.name,
           email: data.email,
           about: data.about,
-          isLoading: false,
-          loadingPicture: false
+          imageUrl: `${API}/user/image/${data.username}`,
+          isLoading: false
         });
-        setImageUrl(data.imageUrl);
       }
     });
   };
@@ -74,16 +73,16 @@ const UpdateProfile = () => {
           <div className='form-group'>
             <label className='text-muted'>Profile Picture</label>
             <input
-              className='form-control'
               onChange={changeHandler("image")}
               type='file'
-              placeholder='Upload a profile picture'
+              image='image/*'
+              className='form-control'
             />
-            {/* <img
+            <img
               style={{ maxHeight: "200px" }}
               className='pt-2'
               src={file}
-            ></img> */}
+            ></img>
           </div>
 
           <div className='form-group'>
@@ -140,54 +139,13 @@ const UpdateProfile = () => {
     }
   };
 
-  // const imageChangeHandler = async e => {
-  //   setValues({ ...values, loadingPicture: true });
-  //   const file = e.target.files[0];
-  //   const data = new FormData();
-  //   data.append("file", file);
-  //   data.append("upload_preset", "seoblog");
-  //   const res = await fetch(
-  //     "https://api.cloudinary.com/v1_1/seoblog/image/upload",
-  //     {
-  //       method: "POST",
-  //       body: data
-  //     }
-  //   );
-  //   const image = await res.json();
-  //   let userFormData = new FormData();
-  //   userFormData.set("imageUrl", image.secure_url);
-  //   setValues({
-  //     ...values,
-  //     userData: userFormData,
-  //     imageUrl: image.secure_url,
-  //     loadingPicture: false
-  //   });
-  // };
-
-  const changeHandler = name => async e => {
-    let userFormData = new FormData();
-    let value = e.target.value;
+  const changeHandler = name => e => {
     if (name === "image") {
-      setValues({ ...values, loadingPicture: true });
-      const file = e.target.files[0];
-      const data = new FormData();
-      data.append("file", file);
-      data.append("upload_preset", "seoblog");
-      const res = await fetch(
-        "https://api.cloudinary.com/v1_1/seoblog/image/upload",
-        {
-          method: "POST",
-          body: data
-        }
-      );
-      const image = await res.json();
-      userFormData.append("imageUrl", image.secure_url);
-      setImageUrl(image.secure_url);
-      setValues({ ...values, loadingPicture: false });
-    } else {
-      userFormData.append(name, e.target.value);
+      setFile(URL.createObjectURL(event.target.files[0]));
     }
-    userFormData.append("imageUrl", imageUrl);
+    const value = name === "image" ? e.target.files[0] : e.target.value;
+    let userFormData = new FormData();
+    userFormData.set(name, value);
     setValues({
       ...values,
       [name]: value,
@@ -195,7 +153,6 @@ const UpdateProfile = () => {
       error: false,
       success: false
     });
-    console.log(userData);
   };
 
   const submitHandler = e => {
@@ -254,24 +211,12 @@ const UpdateProfile = () => {
       <div className='container mt-5'>
         <div className='row'>
           <div className='col-md-4'>
-            {loadingPicture ? (
-              <div className='spinner-border text-primary' role='status'>
-                <span className='sr-only'>Loading...</span>
-              </div>
-            ) : (
-              <img
-                src={imageUrl}
-                style={{ maxWidth: "100%", maxHeight: "auto" }}
-                alt='user profile'
-                className='img img-fluid mb-3 rounded-circle '
-                style={{
-                  borderStyle: "solid",
-                  borderWidth: " 0 2px 0 2px",
-                  borderColor: "#007bff"
-                }}
-                //border-left-0 border-right-0 border-primary
-              />
-            )}
+            <img
+              src={imageUrl}
+              style={{ maxWidth: "100%", maxHeight: "auto" }}
+              alt='user profile'
+              className='img img-fluid mb-3 img-thumbnail'
+            />
           </div>
           <div className='col-md-8'>
             {showSuccess()}
