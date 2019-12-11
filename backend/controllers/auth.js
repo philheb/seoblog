@@ -335,3 +335,35 @@ exports.resetPassword = (req, res) => {
     });
   }
 };
+
+exports.changePassword = (req, res) => {
+  const oldPassword = req.body.currentPassword;
+  const newPassword = req.body.newPassword;
+  const newUser = req.profile;
+
+  User.findOne({ _id: newUser._id }, (err, user) => {
+    if (err || !user) {
+      return res.status(401).json({
+        error: "Something went wrong. Try later."
+      });
+    }
+    if (!user.authenticate(oldPassword)) {
+      return res.status(400).json({
+        error: "The current password is incorrect."
+      });
+    }
+    user.password = newPassword;
+
+    user.save((err, result) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err)
+        });
+      }
+      res.json({
+        user: result,
+        message: `Your password has been changed.`
+      });
+    });
+  });
+};

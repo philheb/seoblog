@@ -35,8 +35,8 @@ const Tag = () => {
         <button
           key={index}
           onDoubleClick={() => deleteHandler(tag.slug)}
-          title="Double-click to delete"
-          className="btn btn-outline-primary mr-2 mt-3"
+          title='Double-click to delete'
+          className='btn btn-outline-primary mr-2 mt-3'
         >
           {tag.name}
         </button>
@@ -46,7 +46,7 @@ const Tag = () => {
   const changeHandler = e => {
     setValues({
       ...values,
-      name: e.target.value,
+      name: e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1),
       error: false,
       success: false,
       removed: ""
@@ -55,7 +55,7 @@ const Tag = () => {
 
   const submitHandler = e => {
     e.preventDefault();
-    console.log("Create tag", name);
+
     createTag({ name }, token).then(data => {
       if (data.error) {
         setValues({ ...values, error: data.error, error: true });
@@ -94,17 +94,17 @@ const Tag = () => {
 
   const showSuccess = () => {
     if (success) {
-      return <p className="text-success">The new tag was created.</p>;
+      return <p className='text-success'>The new tag was created.</p>;
     }
   };
   const showError = () => {
     if (error) {
-      return <p className="text-danger">This tag already exist.</p>;
+      return <p className='text-danger'>This tag already exist.</p>;
     }
   };
   const showRemoved = () => {
     if (removed) {
-      return <p className="text-danger">The tag was successfully removed.</p>;
+      return <p className='text-danger'>The tag was successfully removed.</p>;
     }
   };
   // Remove message when move mouse
@@ -115,17 +115,17 @@ const Tag = () => {
 
   const newTagForm = () => (
     <form onSubmit={submitHandler}>
-      <div className="form-group">
-        <label className="text-muted">Name</label>
+      <div className='form-group'>
+        <label className='text-muted'>Name</label>
         <input
-          type="text"
-          className="form-control"
+          type='text'
+          className='form-control'
           onChange={changeHandler}
           value={name}
           required
         />
       </div>
-      <button className="btn btn-primary">Add</button>
+      <button className='btn btn-primary'>Add</button>
     </form>
   );
 
@@ -140,7 +140,7 @@ const Tag = () => {
         {showTags()}
       </div>
       <div>
-        <p className="pt-4">* Double click a tag to delete it.</p>
+        <p className='pt-4'>* Double click a tag to delete it.</p>
       </div>
     </React.Fragment>
   );

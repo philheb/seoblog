@@ -55,45 +55,31 @@ exports.publicProfile = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  let form = new formidable.IncomingForm();
-  form.keepExtensions = true;
-  form.parse(req, (err, fields, files) => {
-    if (err) {
-      return res.status(400).json({
-        error: "Image could not be uploaded"
-      });
-    }
-    console.log(req.profile);
-    let user = req.profile;
-    user = _.extend(user, fields);
+  const { id, username, name, email, about, imageUrl } = req.body;
+  const updatedUser = {
+    username,
+    name,
+    email,
+    about,
+    imageUrl
+  };
+  // let profile = `${process.env.CLIENT_URL}/profile/${username}`;
 
-    if (fields.password && fields.password.length < 6) {
-      return res.status(400).json({
-        error: "Password should be minimum 6 characters"
-      });
-    }
+  // let newUser = {
+  //   name,
+  //   email,
+  //   profile,
+  //   username,
+  //   imageUrl
+  // };
 
-    if (files.image) {
-      if (files.image.size > 10000000) {
-        return res.status(400).json({
-          error: "The image file should be smaller than 1mb"
-        });
-      }
-      user.image.data = fs.readFileSync(files.image.path);
-      user.image.contentType = files.image.type;
-    }
-    user.save((err, result) => {
-      if (err) {
-        return res.status(400).json({
-          error: errorHandler(err)
-        });
-      }
+  User.findOneAndUpdate({ _id: id }, { $set: updatedUser }, { new: true }).then(
+    user => {
       user.hashed_password = undefined;
       user.salt = undefined;
-      user.image = undefined;
       res.json(user);
-    });
-  });
+    }
+  );
 };
 
 exports.image = (req, res) => {

@@ -140,6 +140,17 @@ const Header = props => {
                     <a href='/user/crud/blog'>
                       <DropdownItem>New Post</DropdownItem>
                     </a>
+
+                    <a
+                      href={
+                        isAuth() && isAuth().role === 1
+                          ? "/admin/crud/blogs"
+                          : "/user/crud/blogs"
+                      }
+                    >
+                      <DropdownItem>Posts</DropdownItem>
+                    </a>
+
                     <Link
                       href={
                         isAuth() && isAuth().role === 1 ? "/admin" : "/user"

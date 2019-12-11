@@ -32,17 +32,20 @@ const ImageUpload = () => {
                 className='form-control'
                 onChange={changeHandler}
                 type='file'
+                name='file'
                 placeholder='Upload a profile picture'
               />
             </div>
           </form>
-          {loading ? (
-            <div className='spinner-border text-primary' role='status'>
-              <span className='sr-only'>Loading...</span>
-            </div>
-          ) : (
-            <img style={{ width: "300px" }} src={image}></img>
-          )}
+          <div className='container-fluid'>
+            {loading ? (
+              <div className='spinner-border text-primary' role='status'>
+                <span className='sr-only'>Loading...</span>
+              </div>
+            ) : (
+              <img src={image}></img>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -7,14 +7,13 @@ import { API, DOMAIN } from "../../config";
 
 const UpdateProfile = () => {
   const [values, setValues] = useState({
+    id: "",
     username: "",
     name: "",
     email: "",
     about: "",
-    password: "",
     error: false,
     success: false,
-    loading: false,
     userData: "",
     isLoading: false,
     loadingPicture: false
@@ -24,15 +23,13 @@ const UpdateProfile = () => {
   const token = getCookie("token");
 
   const {
+    id,
     username,
     name,
     email,
     about,
-    password,
     error,
     success,
-    loading,
-    userData,
     isLoading,
     loadingPicture
   } = values;
@@ -49,6 +46,7 @@ const UpdateProfile = () => {
       } else {
         setValues({
           ...values,
+          id: data._id,
           username: data.username,
           name: data.name,
           email: data.email,
@@ -79,6 +77,9 @@ const UpdateProfile = () => {
               type='file'
               placeholder='Upload a profile picture'
             />
+            <small className='text-muted'>
+              Please use an image smaller than 10mb
+            </small>
             {/* <img
               style={{ maxHeight: "200px" }}
               className='pt-2'
@@ -120,16 +121,8 @@ const UpdateProfile = () => {
               value={about}
               type='text'
               className='form-control'
-            />
-          </div>
-          <div className='form-group'>
-            <label className='text-muted'>Password</label>
-            <input
-              onChange={changeHandler("password")}
-              value={password}
-              type='password'
-              className='form-control'
-              autoComplete='off'
+              rows='6'
+              maxLength='300'
             />
           </div>
           <button type='submit' className='btn btn-primary'>
@@ -165,62 +158,97 @@ const UpdateProfile = () => {
   // };
 
   const changeHandler = name => async e => {
-    let userFormData = new FormData();
-    let value = e.target.value;
     if (name === "image") {
       setValues({ ...values, loadingPicture: true });
       const file = e.target.files[0];
-      const data = new FormData();
-      data.append("file", file);
-      data.append("upload_preset", "seoblog");
-      const res = await fetch(
-        "https://api.cloudinary.com/v1_1/seoblog/image/upload",
-        {
-          method: "POST",
-          body: data
+      if (file.size > 10000000) {
+        setValues({
+          ...values,
+          loadingPicture: false,
+          error: "The image should be less than 10mb."
+        });
+      } else {
+        const data = new FormData();
+        data.append("file", file);
+        data.append("upload_preset", "profile");
+        try {
+          const res = await fetch(
+            "https://api.cloudinary.com/v1_1/seoblog/image/upload",
+            {
+              method: "POST",
+              body: data
+            }
+          );
+          const image = await res.json();
+          setImageUrl(image.secure_url);
+          setValues({
+            ...values,
+            loadingPicture: false,
+            error: false,
+            success: false
+          });
+        } catch (e) {
+          setValues({ ...values, loadingPicture: false });
         }
-      );
-      const image = await res.json();
-      userFormData.append("imageUrl", image.secure_url);
-      setImageUrl(image.secure_url);
-      setValues({ ...values, loadingPicture: false });
+      }
     } else {
-      userFormData.append(name, e.target.value);
+      setValues({
+        ...values,
+        [name]: e.target.value,
+        error: false,
+        success: false
+      });
     }
-    userFormData.append("imageUrl", imageUrl);
-    setValues({
-      ...values,
-      [name]: value,
-      userData: userFormData,
-      error: false,
-      success: false
-    });
-    console.log(userData);
   };
 
   const submitHandler = e => {
     e.preventDefault();
-    setValues({ ...values, loading: true });
+    setValues({ ...values, isLoading: true });
+    const userData = { id, username, name, email, about, imageUrl };
     updateProfile(token, userData).then(data => {
       if (data.error) {
         setValues({
           ...values,
           error: data.error,
           success: false,
-          loading: false
+          isLoading: false
         });
       } else {
         updateUser(data, () => {
           setValues({
             ...values,
             success: true,
-            loading: false
+            isLoading: false
           });
         });
-        window.location.href = `/user/update`;
+        window.location.href = `/profile/${username}`;
       }
     });
   };
+
+  // const submitHandler = e => {
+  //   e.preventDefault();
+  //   setValues({ ...values, loading: true });
+  //   updateProfile(token, userData).then(data => {
+  //     if (data.error) {
+  //       setValues({
+  //         ...values,
+  //         error: data.error,
+  //         success: false,
+  //         loading: false
+  //       });
+  //     } else {
+  //       updateUser(data, () => {
+  //         setValues({
+  //           ...values,
+  //           success: true,
+  //           loading: false
+  //         });
+  //       });
+  //       window.location.href = `/user/update`;
+  //     }
+  //   });
+  // };
 
   const showError = () => (
     <div
@@ -243,7 +271,7 @@ const UpdateProfile = () => {
   const showLoading = () => (
     <div
       className='alert alert-info'
-      style={{ display: loading ? "" : "none" }}
+      style={{ display: isLoading ? "" : "none" }}
     >
       <p>Loading...</p>
     </div>
@@ -261,7 +289,6 @@ const UpdateProfile = () => {
             ) : (
               <img
                 src={imageUrl}
-                style={{ maxWidth: "100%", maxHeight: "auto" }}
                 alt='user profile'
                 className='img img-fluid mb-3 rounded-circle '
                 style={{

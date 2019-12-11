@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
 import Layout from "../../../../components/Layout";
-import Router from "next/router";
+import Link from "next/link";
 import { withRouter } from "next/router";
 import { signupAction, isAuth } from "../../../../actions/auth";
 
@@ -57,7 +57,8 @@ const ActivateAccount = ({ router }) => {
     if (success) {
       return (
         <div className='alert alert-success'>
-          Your account has been activated. Please log in.
+          Your account has been activated. Please{" "}
+          <Link href='/signin'>log in.</Link>
         </div>
       );
     }

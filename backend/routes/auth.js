@@ -7,7 +7,10 @@ const {
   signout,
   googleLogin,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  changePassword,
+  authMiddleware,
+  requireSignin
 } = require("../controllers/auth");
 
 //Validation
@@ -35,6 +38,7 @@ router.put(
   runValidation,
   resetPassword
 );
+router.put("/change-password", requireSignin, authMiddleware, changePassword);
 
 //Google
 router.post("/google-login", googleLogin);

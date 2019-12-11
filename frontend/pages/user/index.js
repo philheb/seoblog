@@ -16,15 +16,16 @@ const UserIndex = () => {
                 <li className='list-group-item'>
                   <a href='/user/update'>Update your profile</a>
                 </li>
-                <li className='list-group-item'>
-                  <a href='/user/crud/blog'>Create a new post</a>
-                </li>
+
                 <li className='list-group-item'>
                   <a href='/user/crud/blogs'>Update/Delete a post</a>
                 </li>
+                <li className='list-group-item'>
+                  <a href='/auth/password/change'>Change your password</a>
+                </li>
               </ul>
             </div>
-            <div className='col-md-8'>Right</div>
+            <div className='col-md-8'></div>
           </div>
         </div>
       </Private>

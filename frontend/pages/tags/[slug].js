@@ -8,7 +8,7 @@ import { withRouter } from "next/router";
 import Layout from "../../components/Layout";
 import { getTag } from "../../actions/tag";
 import { DOMAIN, APP_NAME, FB_APP_ID } from "../../config";
-import Card from "../../components/blog/Card";
+import CardNew from "../../components/blog/CardNew";
 
 const Tag = ({ tag, blogs, query }) => {
   const head = () => (
@@ -41,16 +41,24 @@ const Tag = ({ tag, blogs, query }) => {
       <meta property='fb:app_id' content={`${FB_APP_ID}`} />
     </Head>
   );
+
   const showAllBlogs = () => {
-    return blogs.map((blog, i) => {
-      // ()
+    if (!blogs || blogs.length < 1) {
       return (
-        <article key={i}>
-          <Card blog={blog} />
-          <hr />
-        </article>
+        <p className='text-center mt-5'>
+          We couldn't find any posts with that tag.
+        </p>
       );
-    });
+    } else {
+      return blogs.map((blog, i) => {
+        // ()
+        return (
+          <article key={i}>
+            <CardNew blog={blog} />
+          </article>
+        );
+      });
+    }
   };
 
   return (
@@ -61,9 +69,7 @@ const Tag = ({ tag, blogs, query }) => {
           <div className='container-fluid'>
             <header>
               <div className='col-md-12 pt-3'>
-                <h1 className='display-4 font-weight-bold text-center'>
-                  {tag.name}
-                </h1>
+                <h1 className='display-4 text-center'>{tag.name}</h1>
                 {showAllBlogs()}
               </div>
             </header>

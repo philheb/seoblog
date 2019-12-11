@@ -38,6 +38,7 @@ const CreateBlog = ({ router }) => {
     formData: "",
     hidePublishButton: false
   });
+  const [imageUrl, setImageUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -192,6 +193,9 @@ const CreateBlog = ({ router }) => {
 
   const changeHandler = name => e => {
     const value = name === "image" ? e.target.files[0] : e.target.value;
+    if (name === "image") {
+      console.log("image!!!");
+    }
     formData.set(name, value);
     setValues({ ...values, [name]: value, formData, error: "" });
   };

@@ -62,6 +62,7 @@ const UserProfile = ({ user, blogs, size, query }) => {
                       <p className='text-muted'>
                         Joined {moment(user.createdAt).fromNow()}
                       </p>
+                      <p>{user.about}</p>
                       {isAuth() &&
                         isAuth().username &&
                         isAuth().username === user.username && (

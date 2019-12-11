@@ -189,3 +189,22 @@ export const resetPassword = resetInfo => {
       console.log(err);
     });
 };
+
+export const changePassword = (token, user) => {
+  return fetch(`${API}/change-password`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(user)
+  })
+    .then(res => {
+      handleResponse(res);
+      return res.json();
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};

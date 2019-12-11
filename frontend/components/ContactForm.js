@@ -33,7 +33,6 @@ const ContactForm = ({ authorEmail }) => {
       if (data.error) {
         setValues({ ...values, error: data.error, isLoading: false });
       } else {
-        console.log(data);
         setValues({ ...values, isLoading: false, success: true });
       }
     });

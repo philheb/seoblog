@@ -66,7 +66,14 @@ const ReadBlogs = ({ username }) => {
 
   const showAllBlogs = () => {
     if (!blogs || blogs.length < 1) {
-      return <p>You don't have any posts yet</p>;
+      return (
+        <>
+          <p>You don't have any posts yet.</p>
+          <a className='btn btn-outline-primary mt-4' href='/user/crud/blog'>
+            Write a post
+          </a>
+        </>
+      );
     }
     return blogs.map((blog, i) => {
       return (

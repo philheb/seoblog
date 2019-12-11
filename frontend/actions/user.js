@@ -40,9 +40,10 @@ export const updateProfile = (token, user) => {
     method: "PUT",
     headers: {
       Accept: "application/json",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
     },
-    body: user
+    body: JSON.stringify(user)
   })
     .then(res => {
       handleResponse(res);
