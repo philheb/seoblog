@@ -63,7 +63,7 @@ const Category = ({ category, blogs, query }) => {
           <div className='container-fluid'>
             <header>
               <div className='col-md-12 pt-3'>
-                <h1 className='display-4 text-center'>{category.name}</h1>
+                <h1 className='display-4 text-center pb-5'>{category.name}</h1>
                 {showAllBlogs()}
               </div>
             </header>

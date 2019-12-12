@@ -151,22 +151,23 @@ const Header = props => {
                       <DropdownItem>Posts</DropdownItem>
                     </a>
 
+                    <DropdownItem divider />
+
+                    <Link href={`/profile/${isAuth().username}`}>
+                      <DropdownItem>Profile</DropdownItem>
+                    </Link>
                     <Link
                       href={
                         isAuth() && isAuth().role === 1 ? "/admin" : "/user"
                       }
                     >
-                      <DropdownItem>Dashboard</DropdownItem>
+                      <DropdownItem>Setting</DropdownItem>
                     </Link>
 
                     <DropdownItem divider />
-
                     <Link href='/contact'>
                       <DropdownItem>Contact Us</DropdownItem>
                     </Link>
-
-                    <DropdownItem divider />
-
                     <DropdownItem
                       onClick={() => signout(() => Router.replace("/"))}
                     >
