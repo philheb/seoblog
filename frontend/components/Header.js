@@ -50,9 +50,9 @@ const Header = props => {
           <Nav className='ml-auto nav-align' navbar>
             <>
               {search ? (
-                <div className='row mr-4'>
+                <div className='row mr-4 ml-1 align-items-center'>
                   <Search />
-                  <NavItem onClick={toggleSearch}>
+                  <NavItem onClick={toggleSearch} className='ml-2'>
                     <NavLink
                       style={{
                         fontFamily: "Avenir, Arial, FontAwesome",
@@ -67,7 +67,7 @@ const Header = props => {
                 <div>
                   <NavItem onClick={toggleSearch}>
                     <NavLink
-                      className='row mr-4'
+                      className='row mr-4 ml-1'
                       style={{
                         fontFamily: "Avenir, Arial, FontAwesome",
                         cursor: "pointer"

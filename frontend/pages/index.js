@@ -17,7 +17,7 @@ const Index = () => {
           <div className='container-fluid' style={{ height: "100%" }}>
             <div className='row align-items-center' style={{ height: "100%" }}>
               <div className='col-md-12 text-center'>
-                <h4 className='display-4 mb-4'>PROGRAMMING BLOG & TUTORIALS</h4>
+                <h1 className=' mb-4'>PROGRAMMING BLOG & TUTORIALS</h1>
                 <p className='lead'>
                   {" "}
                   Best programming and web development blogs and tutorials on

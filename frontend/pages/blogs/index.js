@@ -167,6 +167,7 @@ const Blogs = ({
               <div className='col-lg-8'>
                 {showAllBlogs()}
                 {showLoadedBlogs()}
+                <div className='text-center pt-5 pb-5'>{loadMoreButton()}</div>
               </div>
               <div className='col-lg-4'>
                 <section className='pb-4'>
@@ -183,8 +184,6 @@ const Blogs = ({
               </div>
             </div>
           </div>
-
-          <div className='text-center pt-5 pb-5'>{loadMoreButton()}</div>
         </main>
       </Layout>
     </>
