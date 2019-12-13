@@ -193,20 +193,34 @@ const CreateBlog = ({ router }) => {
 
   const changeHandler = name => e => {
     const value = name === "image" ? e.target.files[0] : e.target.value;
-    if (name === "image") {
-      console.log("image!!!");
+    if (value.size > 1000000) {
+      setValues({
+        ...values,
+        error: "The image should be less than 1mb."
+      });
+    } else {
+      formData.set(name, value);
+      setValues({ ...values, [name]: value, formData, error: "" });
     }
-    formData.set(name, value);
-    setValues({ ...values, [name]: value, formData, error: "" });
   };
 
   const bodyChangeHandler = e => {
     setBody(e);
-    formData.set("body", e);
-    if (typeof window !== undefined) {
-      localStorage.setItem("blog", JSON.stringify(e));
+    console.log("size: " + e.length);
+    if (e.length > 1000000) {
+      console.log("TOO BIGG!!!");
+      setValues({
+        ...values,
+        error:
+          "The content is to big, please check that the total size of all the images in the body is less than 1MB"
+      });
+    } else {
+      formData.set("body", e);
+      if (typeof window !== undefined) {
+        localStorage.setItem("blog", JSON.stringify(e));
+      }
+      setValues({ ...values, error: "" });
     }
-    setValues({ ...values, error: "" });
   };
 
   const submitBlogHandler = e => {
