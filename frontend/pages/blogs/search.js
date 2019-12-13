@@ -1,5 +1,5 @@
 import { listSearch } from "../../actions/blog";
-import Card from "../../components/blog/Card";
+import Card from "../../components/blog/CardNew";
 import Layout from "../../components/Layout";
 
 const Search = ({ blogs, search }) => {

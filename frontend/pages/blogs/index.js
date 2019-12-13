@@ -135,10 +135,11 @@ const Blogs = ({
       <Layout>
         <main>
           <header
-            className='row align-items-center'
             style={{
+              display: "flex",
+              alignItems: "center",
               height: "300px",
-              width: "110%",
+              width: "100%",
               position: "relative",
               top: "-50px",
               backgroundImage: "url(/static/images/blogs.jpg)",
