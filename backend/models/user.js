@@ -48,7 +48,7 @@ const userSchema = new mongoose.Schema(
     imageUrl: {
       type: String,
       default:
-        "https://res.cloudinary.com/seoblog/image/upload/v1575794157/profile/default_enhvc1.jpg",
+        "https://res.cloudinary.com/seoblog/image/upload/v1576204863/profile/default_emaobe.png",
       required: true
     },
     resetPasswordLink: {
