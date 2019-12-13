@@ -92,7 +92,7 @@ const CardNew = ({ blog }) => {
                   <h3 className='mt-5'>{blog.title}</h3>
                 </a>
               </Link>
-              <h4 className='mt-3 text-muted'>{renderHTML(blog.excerpt)}</h4>
+              <h5 className='mt-3 text-muted'>{renderHTML(blog.excerpt)}</h5>
               <div className='row'>
                 <div className='col-12'>
                   <Link href={`/blogs/${blog.slug}`}>

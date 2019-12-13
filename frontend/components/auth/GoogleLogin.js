@@ -17,9 +17,9 @@ const GoogleLogin = () => {
       } else {
         authenticate(data, () => {
           if (isAuth() && isAuth().role === 1) {
-            Router.push(`/admin`);
+            Router.push(`/blogs`);
           } else {
-            Router.push(`/user`);
+            Router.push(`/blogs`);
           }
         });
       }
