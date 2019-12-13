@@ -41,9 +41,12 @@ const Header = props => {
     <div>
       <Navbar color='light' light expand='md'>
         <Link href='/'>
-          <NavLink style={{ cursor: "pointer" }} className='font-weight-bold'>
+          <NavbarBrand
+            style={{ cursor: "pointer" }}
+            // className='font-weight-bold'
+          >
             {APP_NAME}
-          </NavLink>
+          </NavbarBrand>
         </Link>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>

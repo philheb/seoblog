@@ -28,6 +28,7 @@ const Category = () => {
       if (data.error) {
         console.log(data.error);
       } else {
+        console.log("TEST!!!");
         setValues({ ...values, categories: data });
       }
     });
