@@ -6,7 +6,7 @@ import { API } from "../../config";
 import { getPublicProfile } from "../../actions/user";
 
 const CardNew = ({ blog }) => {
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("/static/images/default.png");
   const showCategories = blog =>
     blog.categories.map((c, i) => (
       <Link key={i} href={`/categories/${c.slug}`}>
@@ -45,7 +45,7 @@ const CardNew = ({ blog }) => {
             className='row mb-3'
             style={{ padding: "0 15px 0 15px", maxHeight: "50px" }}
           >
-            <div className=''>
+            <div className='rounded-circle' style={{ backgroundColor: "gray" }}>
               <Link href={`/profile/${blog.postedBy.username}`}>
                 <img
                   src={avatarUrl}
