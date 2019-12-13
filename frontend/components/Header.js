@@ -128,7 +128,7 @@ const Header = props => {
                   <DropdownToggle nav>
                     <img
                       src={isAuth().imageUrl}
-                      className='rounded-circle'
+                      className='rounded-circle shadow'
                       alt='user-avatar'
                       style={{ height: "40px" }}
                     />

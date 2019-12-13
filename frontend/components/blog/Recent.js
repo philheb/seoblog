@@ -39,7 +39,7 @@ const Recent = () => {
   };
 
   return (
-    <div className='card' style={{ backgroundColor: "#fafafa" }}>
+    <div className='card shadow' style={{ backgroundColor: "#fafafa" }}>
       <header
         className='text-center text-light'
         style={{ width: "100%", height: "60px", backgroundColor: "#212529" }}

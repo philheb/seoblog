@@ -60,7 +60,7 @@ const Index = () => {
             height: 100vh;
             margin-top: -50px;
             margin-bottom: -50px;
-            background-image: url("/static/images/home.jpg");
+            background-image: url("/static/images/mountain1.jpg");
             background-size: cover;
           }
           .landing-inner {

@@ -6,7 +6,9 @@ import { API } from "../../config";
 import { getPublicProfile } from "../../actions/user";
 
 const SmallCard = ({ blog }) => {
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState(
+    "https://res.cloudinary.com/seoblog/image/upload/v1576204863/profile/default_emaobe.png"
+  );
   useEffect(() => {
     getUserProfileImage();
   }, []);
