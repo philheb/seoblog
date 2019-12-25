@@ -128,8 +128,8 @@ exports.list = (req, res) => {
 };
 
 exports.listRecent = (req, res) => {
-  let blogs;
   Blog.find({})
+    .sort("-updatedAt")
     .limit(3)
     .populate("postedBy", "_id name username profile")
     .select("_id title slug excerpt postedBy createdAt updatedAt")
